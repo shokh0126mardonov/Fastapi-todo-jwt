@@ -15,3 +15,10 @@ url = URL.create(
 engine = create_engine(url)
 Base = declarative_base()
 LocalSession = sessionmaker(bind=engine)
+
+def get_db():
+    db = LocalSession()
+    try:
+        yield db
+    finally:
+        db.close()
