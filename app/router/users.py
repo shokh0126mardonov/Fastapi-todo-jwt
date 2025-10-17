@@ -42,8 +42,8 @@ async def register(
 
 @router.post('/login')
 async def login(
-    username:str,
-    password:str,
+    username:str = Form(min_length=3,max_length=128),
+    password:str = Form(min_length=8),
     db:Session = Depends(get_db)
     ):
     
