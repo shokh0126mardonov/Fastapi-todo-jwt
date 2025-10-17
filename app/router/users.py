@@ -56,7 +56,9 @@ async def login(
 
     if not existing_pass:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail='Password xato')
+    
     token = create_token(user)
+    
     return {
         'token':token
     }
