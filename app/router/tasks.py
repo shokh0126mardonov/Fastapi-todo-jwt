@@ -1,20 +1,28 @@
 from fastapi import APIRouter,Depends
+from fastapi.security import OAuth2PasswordBearer
 from typing import Annotated
 from sqlalchemy.orm import Session
 
-from .users import oauth2_scheme
 from ..schemas import TaskCreate
 from ..db import get_db
+from ..utils import decode_token
 
 router = APIRouter(
     prefix='/tasks',
     tags=['Task Crud']
 )
 
-@router.get('')
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/user/login')
+
+@router.post('')
 async def get_task(
     task:TaskCreate,
     token:Annotated[str,Depends(oauth2_scheme)],
     db:Session = Depends(get_db)
     ):
-    pass
+    data = decode_token(token)
+    
+    return {
+        'data':data
+    }

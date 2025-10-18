@@ -19,14 +19,3 @@ def username_status(
 
     return username
 
-def verify_user_exists(
-    username: str = Form(min_length=3, max_length=128),
-    db: Session = Depends(get_db)
-):
-    user = db.query(User).filter_by(username=username).first()
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Bu foydalanuvchi mavjud emas"
-        )
-    return user
